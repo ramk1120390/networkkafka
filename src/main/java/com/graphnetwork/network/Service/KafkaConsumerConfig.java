@@ -1,6 +1,6 @@
 package com.graphnetwork.network.Service;
 
-import com.graphnetwork.network.Dto1.KafaMessagedto;
+import com.graphnetwork.network.Dto.KafaMessagedto;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.context.annotation.Bean;
@@ -22,7 +22,7 @@ public class KafkaConsumerConfig {
     @Bean
     public ConsumerFactory<String, KafaMessagedto> consumerFactory() {
         Map<String, Object> props = new HashMap<>();
-        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "localhost:9092");
+        props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, "10.169.20.56:9092");
         props.put(ConsumerConfig.GROUP_ID_CONFIG, "test-group");
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class);
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, ErrorHandlingDeserializer.class);

@@ -1,4 +1,4 @@
-package com.graphnetwork.network.Dto;
+package com.graphnetwork.network.Entity;
 
 import org.springframework.data.neo4j.core.schema.Id;
 import org.springframework.data.neo4j.core.schema.Node;
@@ -7,18 +7,10 @@ import org.springframework.data.neo4j.core.schema.Node;
 public class Country {
     @Id
     private Long id;
-    private String Name;
+    private String name;  // Changed 'Name' to 'name' to match JSON structure
     private String desc;
 
-    public Country() {
-    }
-
-    public Country(Long id, String name, String desc) {
-        this.id = id;
-        Name = name;
-        this.desc = desc;
-    }
-
+    // Getters and Setters
     public Long getId() {
         return id;
     }
@@ -28,11 +20,11 @@ public class Country {
     }
 
     public String getName() {
-        return Name;
+        return name;
     }
 
     public void setName(String name) {
-        Name = name;
+        this.name = name;
     }
 
     public String getDesc() {
