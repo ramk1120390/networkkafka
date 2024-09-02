@@ -2,11 +2,14 @@ package com.graphnetwork.network.DbInstraction;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.graphnetwork.network.Dto.KafaMessagedto;
+import com.graphnetwork.network.Entity.Country;
 import com.graphnetwork.network.Operation;
 import com.graphnetwork.network.Repo.CountryRepo;
 import com.graphnetwork.network.Repo.StateRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.Optional;
 
 @Component("StateAction")
 public class StateAction implements Operation {
@@ -30,6 +33,7 @@ public class StateAction implements Operation {
             case "deleteState":
                 DeleteState(kafaMessagedto);
                 break;
+
             default:
                 throw new RuntimeException("Invalid Operation: " + action);
         }
@@ -47,22 +51,20 @@ public class StateAction implements Operation {
 
     private void updateState(KafaMessagedto message) {
         JsonNode data = message.getData();
-
         // Extract old state and country details
         JsonNode oldStateNode = data.path("old");
         JsonNode oldCountryNode = oldStateNode.path("country");
         String oldStateName = oldStateNode.path("stateName").asText();
         String oldCountryName = oldCountryNode.path("countryName").asText();
-
+        System.out.println(oldStateNode);
         // Extract new state and country details
         JsonNode newStateNode = data.path("new");
         JsonNode newCountryNode = newStateNode.path("country");
         String newStateName = newStateNode.path("stateName").asText();
         String newCountryName = newCountryNode.path("countryName").asText();
         String newStateNotes = newStateNode.path("notes").asText();
-        // Call the repository method to update the state
-        stateRepo.deleteStateRel(oldStateName, oldCountryName);
-        stateRepo.updateState(newStateName, newStateNotes, newCountryName);
+        System.out.println(newStateNode);
+        stateRepo.updateStateNameAndLinkCountry(oldStateName, newStateName, newStateNotes, newCountryName);
     }
 
 

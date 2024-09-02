@@ -16,4 +16,11 @@ public interface CountryRepo extends Neo4jRepository<Country, Long> {
     @Query("MATCH (c:Country {name: $name}) DETACH DELETE c")
     void deleteByName(@Param("name") String name);
 
+    @Query("MATCH (c:Country {name: $oldCountry}) " +
+            "SET c.name = $newCountry, " +
+            "c.desc = $desc " +
+            "RETURN c")
+    Country updateCountry(String oldCountry, String newCountry, String desc);
+
+
 }

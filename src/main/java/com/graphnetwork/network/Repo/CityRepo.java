@@ -14,14 +14,15 @@ public interface CityRepo extends Neo4jRepository<City, Long> {
     City createCity(@Param("stateName") String stateName, @Param("cityName") String cityName,
                     @Param("notes") String notes);
 
-    @Query("MATCH (s:State {name: $stateName})" +
-            "MATCH (c:City {name: $cityName}) " +
-            "WHERE (s)-[:STATE_TO_CITY]->(c) " +
-            "SET c.desc = $notes " +
-            "RETURN c")
-    City updateCity(@Param("stateName") String stateName,
-                    @Param("cityName") String cityName,
-                    @Param("notes") String notes);
+    @Query("MATCH (s:City {name: $oldCityName}) " +
+            "SET s.name = $newCityName, " +
+            "s.desc = $desc " +
+            "WITH s " +
+            "MATCH (c:State {name: $StateName}) " +
+            "MERGE (s)-[:STATE_TO_CITY]->(c) " +
+            "RETURN s")
+    City updateCityNameAndLinkState(String oldCityName, String newCityName, String desc, String StateName);
+
 
     @Query("MATCH (c:City {name: $cityName}) " +
             "DETACH DELETE c")

@@ -24,4 +24,8 @@ public interface BuildingRepo extends Neo4jRepository<Building, Long> {
                             @Param("href") String href,
                             @Param("notes") String notes);
 
+    @Query("MATCH (b:Building {name: $stateName}) " +
+            "DETACH DELETE b")
+    void deleteBuilding(@Param("buildingName") String buildingName);
+
 }
